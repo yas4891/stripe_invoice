@@ -1,4 +1,6 @@
 module StripeInvoice
-  class ApplicationController < ActionController::Base
+  class ApplicationController < ::ApplicationController
+    layout 'application'
+    helper :application
   end
 end

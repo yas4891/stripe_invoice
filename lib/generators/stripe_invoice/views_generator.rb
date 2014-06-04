@@ -10,7 +10,7 @@ module StripeInvoice
     def install
       say "copying StripeInvoice view files"
       view_files.each do |file|
-        copy_file file, "app/views/stripe_invoice/#{file}"
+        copy_file file, "app/views/stripe_invoice/invoices/#{file}"
       end
     end
     
