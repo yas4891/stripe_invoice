@@ -17,7 +17,7 @@ module StripeInvoice
       create_initializer api_key
       say "Your webhooks API key is: #{api_key}"
     end
-    
+
     def create_initializer(api_key)
       create_file 'config/initializers/stripe_invoice.rb' do
       <<-RUBY
