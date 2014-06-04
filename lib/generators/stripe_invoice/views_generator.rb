@@ -4,12 +4,13 @@ require 'rails/generators'
 module StripeInvoice
   class ViewsGenerator < Rails::Generators::Base
     include Rails::Generators::Migration
+    source_root "#{StripeInvoice::Engine.root}/app/views/stripe_invoice/invoices"
     desc "installs stripe_invoice views into an application near you"
     
     def install
       say "copying StripeInvoice view files"
       view_files.each do |file|
-        copy_file "#{engine_directory_path}/#{file}", "app/views/stripe_invoice/#{file}"
+        copy_file file, "app/views/stripe_invoice/#{file}"
       end
     end
     
