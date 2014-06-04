@@ -1,0 +1,25 @@
+%table(border=1)
+  %tr
+    %td name
+    %td value
+  %tr
+    %td id
+    %td= @invoice.id
+  %tr
+    %td period_start
+    %td= @invoice.period_start
+  %tr
+    %td period_end
+    %td= @invoice.period_end
+  %tr
+    %td subtotal
+    %td= format_currency(@invoice.subtotal, @invoice.currency)
+  - if @invoice.discount
+    %tr
+      %td discount
+      %td= format_currency(@invoice.discount, @invoice.currency)
+  %tr
+    %td total
+    %td= format_currency(@invoice.total, @invoice.currency)
+      
+  

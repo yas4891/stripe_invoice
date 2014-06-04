@@ -4,6 +4,7 @@ require "stripe_invoice/engine"
 
 require 'generators/stripe_invoice/install_generator'
 require 'generators/stripe_invoice/views_generator'
+
 module StripeInvoice
   mattr_accessor :webhooks_api_key
   @@webhooks_api_key = nil
