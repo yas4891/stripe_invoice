@@ -107,6 +107,7 @@ PLATFORMS
 DEPENDENCIES
   haml-rails
   jquery-rails
+  rails (~> 3.2.13)
   sqlite3
   stripe
   stripe_invoice!
