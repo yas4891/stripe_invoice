@@ -4,10 +4,10 @@ module StripeInvoice
   class InvoicesController < ApplicationController
     
     def index
-      owner = send("current_#{::Koudoku.subscriptions_owned_by.to_s}")
-      redirect_to '/' unless owner
+      @owner = send("current_#{::Koudoku.subscriptions_owned_by.to_s}")
+      redirect_to '/' unless @owner
       
-      @subscription = owner.subscription
+      @subscription = @owner.subscription
 
       # I know this looks silly, but Koudoku actually stores the customer's stripe_id 
       # in the subscription model
@@ -17,10 +17,10 @@ module StripeInvoice
     end
     
     def show
-      owner = send("current_#{::Koudoku.subscriptions_owned_by.to_s}")
-      redirect_to '/' unless owner
+      @owner = send("current_#{::Koudoku.subscriptions_owned_by.to_s}")
+      redirect_to '/' unless @owner
       
-      @subscription = owner.subscription
+      @subscription = @owner.subscription
 
       # I know this looks silly, but Koudoku actually stores the customer's stripe_id 
       # in the subscription model

@@ -1,10 +1,12 @@
-%table.table.table-condensed.table-bordered.table-striped
-  %tr
-    %th id
-    %th usage period
-    %th total
-  - @invoices.each do |invoice|
-    %tr
-      %td= link_to invoice.id, invoice_path(invoice.id)
-      %td= "#{l(Time.at(invoice.period_start).to_datetime, :format => :short_date)} - #{l(Time.at(invoice.period_end).to_datetime, :format => :short_date)}"
-      %td= format_currency invoice.total, invoice.currency
+.row
+  .col-md-offset-1.col-md-10
+    %table.table.table-condensed.table-bordered.table-striped
+      %tr
+        %th id
+        %th usage period
+        %th total
+      - @invoices.each do |invoice|
+        %tr
+          %td= link_to invoice.id, invoice_path(invoice.id)
+          %td= "#{l(Time.at(invoice.period_start).to_datetime, :format => :short_date)} - #{l(Time.at(invoice.period_end).to_datetime, :format => :short_date)}"
+          %td= format_currency invoice.total, invoice.currency

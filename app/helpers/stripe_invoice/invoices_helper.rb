@@ -27,5 +27,7 @@ module StripeInvoice
       end
       return number_to_currency(amount, options)
     end
+    
+    alias_method :fc, :format_currency
   end
 end
