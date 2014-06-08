@@ -4,9 +4,15 @@ StripeInvoice makes it easy for you to show invoices/receipts to the customers o
 It downloads the last 100 invoices via the Stripe API, stores them in a table in the database and renders a basic 
 invoice template. 
 
-StripeInvoice is opinionated on which gems your application uses. 
+## Features
 
-Requirements: 
+- Show invoices & receipts to your customers
+- Automatically assign Invoice # for new invoices
+- Download invoices as PDF
+
+## Requirements 
+
+StripeInvoice is opinionated on which gems your application uses. 
 
 1. [Koudoku](https://github.com/andrewculver/koudoku/) to handle subscriptions
 2. [Devise](https://github.com/plataformatec/devise) for user authentication
@@ -40,4 +46,18 @@ To view the invoices log into your application
 
 You probably want to customize the views for your application. You can easily install the views files (written with HAML)
 to your application by running `rails g stripe_invoice:views` from the command line. 
-The views will be installed into `app/views/stripe_invoice/invoices/` folder 
+The views will be installed into `app/views/stripe_invoice/invoices/` folder
+
+
+
+## Contribution
+
+To contribute to the development of StripeInvoice please: 
+
+1. fork the repository
+2. create a development branch
+3. code away
+4. send a pull request
+
+## Developer
+This plugin is under active development by [Christoph Engelhardt](http://www.it-engelhardt.de) and used at [LinksSpy.com](http://www.linksspy.com)
