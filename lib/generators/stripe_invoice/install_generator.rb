@@ -12,13 +12,11 @@ module StripeInvoice
         gem 'stripe_invoice'
       end
       
+    # mounts StripeInvoice in the applications routes.rb file
+      route "mount StripeInvoice::Engine, at: 'stripe_invoice'"
+
       api_key = SecureRandom.uuid
       
-      create_initializer api_key
-      say "Your webhooks API key is: #{api_key}"
-    end
-
-    def create_initializer(api_key)
       create_file 'config/initializers/stripe_invoice.rb' do
       <<-RUBY
 StripeInvoice.setup do |config|
@@ -27,6 +25,11 @@ StripeInvoice.setup do |config|
 end
 RUBY
       end # create initializer file
-    end # create_initializer
+      say "Your webhooks API key is: #{api_key}"
+    end
+    
+    def copy_migrations
+      rake("stripe_invoice:install:migrations")
+    end 
   end
 end
