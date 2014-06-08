@@ -1,4 +1,4 @@
-= StripeInvoice
+# StripeInvoice
 
 StripeInvoice makes it easy for you to show invoices/receipts to the customers of your [Koudoku](https://github.com/andrewculver/koudoku/)-based Rails application. 
 It downloads the last 100 invoices via the Stripe API, stores them in a table in the database and renders a basic 
