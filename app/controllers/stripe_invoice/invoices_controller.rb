@@ -1,30 +1,51 @@
 require_dependency "stripe_invoice/application_controller"
+require 'pdfkit' # no auto_require for gems in .gemspec
 
 module StripeInvoice
   class InvoicesController < ApplicationController
     
     def index
-      @owner = send("current_#{::Koudoku.subscriptions_owned_by.to_s}")
+      @owner = send("current_#{::Koudoku.subscriptions_owned_by}")
       redirect_to '/' unless @owner
       
       @subscription = @owner.subscription
-
-      # I know this looks silly, but Koudoku actually stores the customer's stripe_id 
-      # in the subscription model
-      @invoices = Stripe::Invoice.all(
-        :customer => @subscription.stripe_id,
-        :limit => 100)
+      
+      if @subscription
+        # I know this looks silly, but Koudoku actually stores the customer's stripe_id 
+        # in the subscription model
+        @stripe_invoices = Stripe::Invoice.all(
+          :customer => @subscription.stripe_id,
+          :limit => 100)
+        
+        @stripe_invoices.each do |sinvoice|
+          next if Invoice.find_by_stripe_id(sinvoice.id)
+          Invoice.create({
+            stripe_id: sinvoice.id,
+            owner_id: @owner.id, 
+            date: sinvoice.date, 
+            invoice_number: "ls-#{Date.today.year}-#{(Invoice.last ? (Invoice.last.id * 7) : 1).to_s.rjust(5, '0')}", 
+            json: sinvoice
+          })
+        end
+      end # if subscription
+      
+      @invoices = Invoice.where(owner_id: @owner.id).order('date DESC')
     end
     
     def show
-      @owner = send("current_#{::Koudoku.subscriptions_owned_by.to_s}")
+      @owner = send("current_#{::Koudoku.subscriptions_owned_by}")
       redirect_to '/' unless @owner
       
-      @subscription = @owner.subscription
-
-      # I know this looks silly, but Koudoku actually stores the customer's stripe_id 
-      # in the subscription model
-      @invoice = Stripe::Invoice.retrieve(params[:id])
+      @invoice = Invoice.find(params[:id])
+      
+      respond_to do |format|
+        format.html {render layout: false}
+        format.pdf do
+          html = render_to_string(layout: false, formats: [:html])
+          pdf = ::PDFKit.new(html, page_size: 'Letter')
+          send_data(pdf.to_pdf, filename: "invoice-#{@invoice.number}.pdf")
+        end
+      end
     end
   end
 end

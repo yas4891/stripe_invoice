@@ -2,7 +2,11 @@ PATH
   remote: .
   specs:
     stripe_invoice (0.0.1)
+      haml-rails
+      pdfkit
       rails (~> 3.2.18)
+      stripe
+      wkhtmltopdf-binary
 
 GEM
   remote: https://rubygems.org/
@@ -56,6 +60,7 @@ GEM
       treetop (~> 1.4.8)
     mime-types (1.25.1)
     multi_json (1.10.1)
+    pdfkit (0.6.2)
     polyglot (0.3.5)
     rack (1.4.5)
     rack-cache (1.2)
@@ -100,6 +105,7 @@ GEM
       polyglot
       polyglot (>= 0.3.1)
     tzinfo (0.3.39)
+    wkhtmltopdf-binary (0.9.9.1)
 
 PLATFORMS
   ruby
@@ -107,7 +113,8 @@ PLATFORMS
 DEPENDENCIES
   haml-rails
   jquery-rails
-  rails (~> 3.2.13)
+  pdfkit
   sqlite3
   stripe
   stripe_invoice!
+  wkhtmltopdf-binary

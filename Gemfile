@@ -10,6 +10,9 @@ gem "jquery-rails"
 
 gem 'stripe'
 gem 'haml-rails'
+gem 'pdfkit' # turns invoices into PDFs
+gem 'wkhtmltopdf-binary' # needed for pdfkit
+
 
 # Declare any dependencies that are still in development here instead of in
 # your gemspec. These might include edge Rails or gems from your path or
