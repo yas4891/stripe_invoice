@@ -23,6 +23,5 @@ module StripeInvoice
     def engine_directory_path
       "#{StripeInvoice::Engine.root}/app/views/stripe_invoice/invoices"
     end
-
   end
 end

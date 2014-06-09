@@ -4,7 +4,7 @@ require 'rails/generators'
 module StripeInvoice
   class InstallGenerator < Rails::Generators::Base
     include Rails::Generators::Migration
-    source_root File.expand_path("../../../../app/views/stripe_invoice/invoices", __FILE__)
+    source_root "#{StripeInvoice::Engine.root}/app/views/stripe_invoice/invoices"
     desc "installs stripe_invoice"
     
     def install
