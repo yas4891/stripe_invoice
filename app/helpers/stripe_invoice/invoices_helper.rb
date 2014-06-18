@@ -29,5 +29,14 @@ module StripeInvoice
     end
     
     alias_method :fc, :format_currency
+    
+    # checks the plan's metadata for a custom public name
+    # and uses that if available - else it will use plan[:name]
+    def plan_public_name(plan)
+      plan = plan.with_indifferent_access
+      (plan[:metadata] && 
+        plan [:metadata][:stripe_invoice] && 
+        plan[:metadata][:stripe_invoice][:public_name]) || plan[:name]
+    end
   end
 end
