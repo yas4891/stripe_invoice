@@ -9,11 +9,11 @@ Gem::Specification.new do |s|
   s.version     = StripeInvoice::VERSION
   s.authors     = ["Christoph Engelhardt"]
   s.email       = ["christoph@it-engelhardt.de"]
-  s.homepage    = "http://www.it-engelhardt.de/stripe_invoice"
+  s.homepage    = "https://github.com/yas4891/stripe_invoice"
   s.summary     = "Adds views, PDFs and automated emails if you are using Stripe/Koudoku for payment processing"
   s.description = "stripe_invoice adds PDF views and automated emails to your Koudoku-based application"
 
-  s.files = Dir["{app,config,db,lib}/**/*"] + ["MIT-LICENSE", "Rakefile", "README.rdoc"]
+  s.files = Dir["{app,config,db,lib}/**/*"] + ["MIT-LICENSE", "Rakefile", "README.md"]
   s.test_files = Dir["test/**/*"]
 
   s.add_dependency "rails", "~> 3.2.18"
