@@ -1,0 +1,119 @@
+Connecting to database specified by database.yml
+Connecting to database specified by database.yml
+Connecting to database specified by database.yml
+  [1m[36m (3.4ms)[0m  [1mbegin transaction[0m
+Started GET "/stripe_invoice/invoices/1.pdf" for 127.0.0.1 at 2014-11-05 16:32:27 +0530
+Processing by StripeInvoice::InvoicesController#show as PDF
+  Parameters: {"id"=>"1"}
+Completed 500 Internal Server Error in 2.8ms
+  [1m[35m (0.1ms)[0m  rollback transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.1ms)[0m  rollback transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.1ms)[0m  rollback transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.1ms)[0m  rollback transaction
+Connecting to database specified by database.yml
+  [1m[36m (0.3ms)[0m  [1mbegin transaction[0m
+Started GET "/stripe_invoice/invoices/1.pdf" for 127.0.0.1 at 2014-11-05 16:35:58 +0530
+Processing by StripeInvoice::InvoicesController#show as PDF
+  Parameters: {"id"=>"1"}
+Completed 500 Internal Server Error in 2.8ms
+  [1m[35m (0.1ms)[0m  rollback transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.1ms)[0m  rollback transaction
+Connecting to database specified by database.yml
+  [1m[36m (0.3ms)[0m  [1mbegin transaction[0m
+Started GET "/stripe_invoice/invoices/1.pdf" for 127.0.0.1 at 2014-11-05 16:36:48 +0530
+Processing by StripeInvoice::InvoicesController#show as PDF
+  Parameters: {"id"=>"1"}
+Completed 500 Internal Server Error in 2.8ms
+  [1m[35m (0.1ms)[0m  rollback transaction
+Connecting to database specified by database.yml
+  [1m[36m (0.3ms)[0m  [1mbegin transaction[0m
+Started GET "/stripe_invoice/invoices/1.pdf" for 127.0.0.1 at 2014-11-05 16:38:11 +0530
+Processing by StripeInvoice::InvoicesController#show as PDF
+  Parameters: {"id"=>"1"}
+Completed 500 Internal Server Error in 2.6ms
+  [1m[35m (0.1ms)[0m  rollback transaction
+Connecting to database specified by database.yml
+Connecting to database specified by database.yml
+  [1m[36m (0.3ms)[0m  [1mbegin transaction[0m
+Started GET "/stripe_invoice/invoices/1.pdf" for 127.0.0.1 at 2014-11-05 16:43:56 +0530
+Processing by StripeInvoice::InvoicesController#show as PDF
+  Parameters: {"id"=>"1"}
+Completed 500 Internal Server Error in 2.9ms
+  [1m[35m (0.1ms)[0m  rollback transaction
+Connecting to database specified by database.yml
+  [1m[36m (0.3ms)[0m  [1mbegin transaction[0m
+Started GET "/stripe_invoice/invoices/1.pdf" for 127.0.0.1 at 2014-11-05 16:50:05 +0530
+Processing by StripeInvoice::InvoicesController#show as PDF
+  Parameters: {"id"=>"1"}
+Completed 500 Internal Server Error in 40.0ms
+  [1m[35m (0.2ms)[0m  rollback transaction
+Connecting to database specified by database.yml
+  [1m[36m (0.3ms)[0m  [1mbegin transaction[0m
+Started GET "/stripe_invoice/invoices/1.pdf" for 127.0.0.1 at 2014-11-05 16:50:59 +0530
+Processing by StripeInvoice::InvoicesController#show as PDF
+  Parameters: {"id"=>"1"}
+Completed 500 Internal Server Error in 2.3ms
+  [1m[35m (0.1ms)[0m  rollback transaction
+Connecting to database specified by database.yml
+  [1m[36m (0.3ms)[0m  [1mbegin transaction[0m
+Started GET "/stripe_invoice/invoices/1.pdf" for 127.0.0.1 at 2014-11-05 16:58:01 +0530
+Processing by StripeInvoice::InvoicesController#show as PDF
+  Parameters: {"id"=>"1"}
+Completed 500 Internal Server Error in 15831.6ms
+  [1m[35m (0.1ms)[0m  rollback transaction
+Connecting to database specified by database.yml
+  [1m[36m (0.3ms)[0m  [1mbegin transaction[0m
+Started GET "/stripe_invoice/invoices/1.pdf" for 127.0.0.1 at 2014-11-05 16:59:27 +0530
+Processing by StripeInvoice::InvoicesController#show as PDF
+  Parameters: {"id"=>"1"}
+Completed 500 Internal Server Error in 2177.5ms
+  [1m[35m (0.1ms)[0m  rollback transaction
+Connecting to database specified by database.yml
+  [1m[36m (0.3ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.1ms)[0m  rollback transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.1ms)[0m  rollback transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.1ms)[0m  rollback transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.1ms)[0m  rollback transaction
+Connecting to database specified by database.yml
+  [1m[36m (0.3ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.1ms)[0m  rollback transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.1ms)[0m  rollback transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.1ms)[0m  rollback transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.1ms)[0m  rollback transaction
+Connecting to database specified by database.yml
+  [1m[36m (0.3ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.1ms)[0m  rollback transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.1ms)[0m  rollback transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.1ms)[0m  rollback transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.1ms)[0m  rollback transaction
+Connecting to database specified by database.yml
+  [1m[36m (0.3ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.1ms)[0m  rollback transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.1ms)[0m  rollback transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.0ms)[0m  rollback transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.0ms)[0m  rollback transaction
+Connecting to database specified by database.yml
+  [1m[36m (0.4ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.1ms)[0m  rollback transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.0ms)[0m  rollback transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.0ms)[0m  rollback transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.0ms)[0m  rollback transaction

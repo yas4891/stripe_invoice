@@ -14,14 +14,19 @@ Gem::Specification.new do |s|
   s.description = "stripe_invoice adds PDF views and automated emails to your Koudoku-based application"
 
   s.files = Dir["{app,config,db,lib}/**/*"] + ["MIT-LICENSE", "Rakefile", "README.md"]
-  s.test_files = Dir["test/**/*"]
+  s.test_files = Dir["spec/**/*"]
 
   s.add_dependency "rails", "~> 3.2.18"
   s.add_dependency "stripe" 
-  s.add_dependency "pdfkit" 
-  s.add_dependency "wkhtmltopdf-binary" 
+  s.add_dependency "prawn-rails"
+  s.add_development_dependency 'rspec-rails'
+  s.add_development_dependency 'koudoku'
+  s.add_development_dependency 'devise'
+  s.add_development_dependency 'capybara'
+  s.add_development_dependency 'factory_girl_rails'
   s.add_dependency "haml-rails" 
   # s.add_dependency "jquery-rails"
+  s.add_development_dependency 'pry'
 
   s.add_development_dependency "sqlite3"
 end
