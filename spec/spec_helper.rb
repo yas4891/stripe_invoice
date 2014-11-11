@@ -6,6 +6,8 @@ require 'rspec/autorun'
 require 'factory_girl_rails'
 require 'koudoku'
 require 'pry'
+require 'pdf/inspector'
+
 Rails.backtrace_cleaner.remove_silencers!
 
 # Requires supporting ruby files with custom matchers and macros, etc,
@@ -17,4 +19,7 @@ RSpec.configure do |config|
   config.use_transactional_fixtures = true
   config.infer_base_class_for_anonymous_controllers = false
   config.order = "random"
+
+  FactoryGirl.definition_file_paths = [File.expand_path('../factories', __FILE__)]
+  FactoryGirl.find_definitions
 end

@@ -1,41 +1,42 @@
 require 'spec_helper'
 
-describe StripeInvoice::InvoicesController do
-
-  context 'Invoice Pdf' do
+describe "StripeInvoice::InvoicesController" do
+  let(:invoice) {FactoryGirl.create(:invoice)}
+  
+  context 'Show action' do
     before do
       ::Koudoku.stub(:subscriptions_owned_by).and_return(:user)
+      ApplicationController.any_instance.stub(:current_user).and_return({id: 1, email: "ankur@mail.com", encrypted_password: "$2a$10$13AxhtcJM76hKRjTh/0VfOT0cQ0ScqL.Q.vM6AXRE9O5...", reset_password_token: nil, reset_password_sent_at: nil, remember_created_at: nil, sign_in_count: 1, current_sign_in_at: "2014-11-03 11:50:22", last_sign_in_at: "2014-11-03 11:50:22", current_sign_in_ip: "127.0.0.1", last_sign_in_ip: "127.0.0.1", created_at: "2014-11-03 11:50:22", updated_at: "2014-11-03 11:50:23"})
+      visit "/stripe_invoice/invoices/#{invoice.id}.pdf"
+      @ext_analysis = PDF::Inspector::Text.analyze(page.body)
     end
 
-    it 'file should be available for view' do
-      pending
-      visit '/stripe_invoice/invoices/1.pdf'
-      page.status_code.must_equal 200
+    context 'Invoice PDF' do
+
+      it "Should download the pdf when visiting the show page" do
+        expect(response).to render_template(:show)
+        expect(page.response_headers['Content-Type']).to eq("application/pdf; charset=utf-8")
+      end
+
+      ['Invoice #', 'Invoice Details', 'Billed To', 'VAT ID',
+         'Summary', 'Subtotal', 'Total', 'Line Items'].each do |pdf_text|
+        it "The pdf should have the correct label : #{pdf_text}" do
+          expect(@ext_analysis.strings).to include(pdf_text)
+        end
+      end
+
+      # To check the value on the pdf
+      it "The pdf should have the correct values" do    
+        ["#{Time.at(invoice.date).strftime('%d/%m/%Y')}",
+          invoice.invoice_number,
+          "[BILLED TO]",
+          "[VAT-ID]",
+          "#{Time.at(invoice.period_start).strftime('%d/%m/%Y')} - #{Time.at(invoice.period_end).strftime('%d/%m/%Y')}"
+        ].each do |pdf_value|
+          expect(@ext_analysis.strings).to include(pdf_value)
+        end
+      end
     end
-  end
 
-  context 'The rendered pdf content' do
-      let (:pdf_content) {} #TODO:: This needs to be a pdf reader object that reads the pdf downloaded
-
-      it 'contains the Invoice info of subscription' do
-        pending
-        expect(pdf_content).to include('Invoice #')
-        expect(pdf_content).to include('Invoice Details')
-        expect(pdf_content).to include('Billed To') 
-        expect(pdf_content).to include('VAT ID') 
-      end
-      
-      it 'contains the Summary of subscription' do
-        pending
-        expect(pdf_content).to include('Summary')
-        expect(pdf_content).to include('Subtotal')
-        expect(pdf_content).to include('Total')
-      end
-      
-      it 'contains the Line Items of subscription' do
-        pending
-        expect(pdf_content).to include('Line Items')
-        expect(pdf_content).to include('subscription')
-      end
   end
 end

@@ -40,9 +40,7 @@ module StripeInvoice
       
       respond_to do |format|
         format.html {render layout: false}
-        format.pdf do
-          # By default this gets routed to prawn.
-        end
+        format.pdf
       end
     end
   end

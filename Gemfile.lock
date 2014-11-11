@@ -94,6 +94,8 @@ GEM
       mini_portile (~> 0.6.0)
     orm_adapter (0.5.0)
     pdf-core (0.4.0)
+    pdf-inspector (1.2.0)
+      pdf-reader (~> 1.0)
     pdf-reader (1.3.3)
       Ascii85 (~> 1.0.0)
       afm (~> 0.2.0)
@@ -188,7 +190,7 @@ DEPENDENCIES
   haml-rails
   jquery-rails
   koudoku
-  pdf-reader
+  pdf-inspector
   prawn-rails
   pry
   rspec-rails (~> 2.12.2)
