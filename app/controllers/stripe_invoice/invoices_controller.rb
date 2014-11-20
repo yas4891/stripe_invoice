@@ -1,5 +1,5 @@
 require_dependency "stripe_invoice/application_controller"
-require 'pdfkit' # no auto_require for gems in .gemspec
+require "prawn-rails"
 
 module StripeInvoice
   class InvoicesController < ApplicationController
@@ -40,11 +40,7 @@ module StripeInvoice
       
       respond_to do |format|
         format.html {render layout: false}
-        format.pdf do
-          html = render_to_string(layout: false, formats: [:html])
-          pdf = ::PDFKit.new(html, page_size: 'Letter')
-          send_data(pdf.to_pdf, filename: "invoice-#{@invoice.number}.pdf")
-        end
+        format.pdf
       end
     end
   end

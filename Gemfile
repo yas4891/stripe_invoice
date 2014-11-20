@@ -10,8 +10,14 @@ gem "jquery-rails"
 
 gem 'stripe'
 gem 'haml-rails'
-gem 'pdfkit' # turns invoices into PDFs
-gem 'wkhtmltopdf-binary' # needed for pdfkit
+
+gem 'prawn-rails'
+ 
+group :development, :test do
+	gem "rspec-rails", "~> 2.12.2"
+	gem "factory_girl_rails", "~> 4.0"
+	gem 'pdf-inspector'
+end
 
 
 # Declare any dependencies that are still in development here instead of in

@@ -38,5 +38,17 @@ module StripeInvoice
         plan [:metadata][:stripe_invoice] && 
         plan[:metadata][:stripe_invoice][:public_name]) || plan[:name]
     end
+    
+    def pdf_date_format(date)
+      date = Time.at(date)
+      date.strftime('%d/%m/%Y')
+    end
+
+    def plan_duration_in_month(invoice)
+      period_end_date = Time.at(invoice.period_end)
+      period_start_date = Time.at(invoice.period_start)
+      ((period_end_date.year * 12 + period_end_date.month) - (period_start_date.year * 12 + period_start_date.month)).to_i
+    end
+
   end
 end
