@@ -25,7 +25,7 @@ pdf.font_size(17.5) { pdf.text "Summary", :style => :bold }
 pdf.move_down 10
 
 total = [['Subtotal', "#{format_currency(@invoice.subtotal, @invoice.currency)}"],
-        ["Total", "#{format_currency(@invoice.total, @invoice.currency)}"]]
+        ["Total", "#{format_currency(@invoice.amount, @invoice.currency)}"]]
 pdf.table(total,:cell_style => { :border_width => 0,:border_color=> 'C1C1C1', :width=>'100%' }) do |table|
     table.column(0..1).style(:align => :right)
     table.column(0).width = 300

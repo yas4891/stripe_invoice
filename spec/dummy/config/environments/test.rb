@@ -34,4 +34,5 @@ Dummy::Application.configure do
 
   # Print deprecation notices to the stderr
   config.active_support.deprecation = :stderr
+  # WebMock.allow_net_connect!
 end
