@@ -18,8 +18,17 @@
     %tr
       %td discount
       %td= format_currency(@invoice.discount, @invoice.currency)
+  - total_refund=0
+  - if @invoice.refunds
+    - count = 0
+    - @invoice.refunds.each do |refund|
+      - count += 1
+      %tr
+        %td= (count==1 ? 'Refund' : '')
+        - total_refund += -refund.amount
+        %td= format_currency(refund.amount, @invoice.currency)
   %tr
     %td total
-    %td= format_currency(@invoice.amount, @invoice.currency)
+    %td= format_currency((@invoice.amount - total_refund), @invoice.currency)
       
   

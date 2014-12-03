@@ -1,6 +1,6 @@
 module StripeInvoice
   class Invoice < ActiveRecord::Base
-    attr_accessible :id, :invoice_number, :stripe_id, :json, :owner_id, :date, :amount, :stripe_refund_id
+    attr_accessible :id, :invoice_number, :stripe_id, :json, :owner_id, :date, :amount, :stripe_refund_id, :parent_invoice_id
     
     alias_attribute :number, :invoice_number
 
@@ -36,6 +36,10 @@ module StripeInvoice
     
     def lines
       indifferent_json[:lines]
+    end
+
+    def refunds
+      Invoice.where(parent_invoice_id: id)
     end
   end
 end

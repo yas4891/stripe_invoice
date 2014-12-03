@@ -20,6 +20,9 @@ module StripeInvoice
           scharge_invoice = Stripe::Invoice.retrieve(scharge.invoice) rescue {}
 
           next if scharge_invoice.blank?
+          # We can use below to get parent_invoice id instead of fetching agin to get exect parent, because parent should come first always.
+          # available_invoices = Invoice.find_all_by_stripe_id(scharge_invoice.id)
+          # available_invoices.first.id
           invoice_count = Invoice.find_all_by_stripe_id(scharge_invoice.id).count
           scharge_count = scharge.refunds.count + 1
           next if scharge_count == invoice_count #Execute next if count is equal. But here we can miss the case if refund get updated.
@@ -29,15 +32,16 @@ module StripeInvoice
 
           #Check for refund and create invoice
           if scharge.refunds.present?
+            parent_invoice = Invoice.where({stripe_id: scharge_invoice.id, parent_invoice_id: nil}).first
             scharge.refunds.each do |scharge_refund|
               next if Invoice.find_by_stripe_refund_id(scharge_refund.id).present?
-              generate_invoice(scharge, @owner, scharge_invoice, scharge_refund)              
+              generate_invoice(scharge, @owner, scharge_invoice, scharge_refund, parent_invoice)
             end
           end # if scharge.refunds
         end
       end # if subscription
       
-      @invoices = Invoice.where(owner_id: @owner.id).order('stripe_id, date DESC')
+      @invoices = Invoice.where({owner_id: @owner.id, parent_invoice_id: nil}).order('stripe_id, date DESC')
     end
     
     def show
@@ -54,11 +58,12 @@ module StripeInvoice
 
     private
 
-    def generate_invoice(scharge, owner, scharge_invoice, scharge_refund=nil)
-      amount, stripe_refund_id = scharge_invoice[:total], nil
+    def generate_invoice(scharge, owner, scharge_invoice, scharge_refund=nil, parent_invoice=nil)
+      amount, stripe_refund_id, parent_invoice_id = scharge_invoice[:total], nil, nil
       if scharge_refund.present?
         amount = -scharge_refund.amount #'-' For refund
         stripe_refund_id = scharge_refund.id
+        parent_invoice_id = parent_invoice.id if parent_invoice.present?
       end
 
       Invoice.create({
@@ -68,7 +73,8 @@ module StripeInvoice
         invoice_number: "ls-#{Date.today.year}-#{(Invoice.last ? (Invoice.last.id * 7) : 1).to_s.rjust(5, '0')}", 
         json: scharge_invoice,
         amount: amount,
-        stripe_refund_id: stripe_refund_id #We need to kept complet json of refund instead of only amount and id.
+        stripe_refund_id: stripe_refund_id,
+        parent_invoice_id: parent_invoice_id
       })
     end
 
