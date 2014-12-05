@@ -41,5 +41,11 @@ module StripeInvoice
     def refunds
       Invoice.where(parent_invoice_id: id)
     end
+
+    def total_refund
+      total_refund=0
+      refunds.each{ |refund| total_refund += -refund.amount}
+      total_refund
+    end
   end
 end

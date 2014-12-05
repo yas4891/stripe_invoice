@@ -1,34 +1,27 @@
 %table(border=1)
   %tr
-    %td name
+    %td Name
     %td value
   %tr
-    %td id
+    %td Id
     %td= @invoice.id
   %tr
-    %td period_start
+    %td Period Start
     %td= @invoice.period_start
   %tr
-    %td period_end
+    %td Period End
     %td= @invoice.period_end
   %tr
-    %td subtotal
+    %td Subtotal
     %td= format_currency(@invoice.subtotal, @invoice.currency)
   - if @invoice.discount
     %tr
       %td discount
       %td= format_currency(@invoice.discount, @invoice.currency)
-  - total_refund=0
-  - if @invoice.refunds
-    - count = 0
-    - @invoice.refunds.each do |refund|
-      - count += 1
-      %tr
-        %td= (count==1 ? 'Refund' : '')
-        - total_refund += -refund.amount
-        %td= format_currency(refund.amount, @invoice.currency)
+  - @invoice.refunds.each do |refund|
+    %tr
+      %td= 'Refund'
+      %td= format_currency(refund.amount, @invoice.currency)
   %tr
-    %td total
-    %td= format_currency((@invoice.amount - total_refund), @invoice.currency)
-      
-  
+    %td Total
+    %td= format_currency((@invoice.amount - @invoice.total_refund), @invoice.currency)

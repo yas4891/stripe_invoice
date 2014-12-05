@@ -26,17 +26,12 @@ pdf.move_down 10
 
 rows = [['Subtotal', "#{format_currency(@invoice.subtotal, @invoice.currency)}"]]
 
-total_refund=0
 #Refund details
-if @invoice.refunds.present?
-  refunds=[]
-  @invoice.refunds.each do |refund|
-    rows << ["Refund", "#{format_currency(refund.amount, @invoice.currency)}"]
-    total_refund += -refund.amount
-  end
+@invoice.refunds.each do |refund|
+  rows << ["Refund", "#{format_currency(refund.amount, @invoice.currency)}"]
 end
 
-rows << ["Total", "#{format_currency((@invoice.amount - total_refund), @invoice.currency)}"]
+rows << ["Total", "#{format_currency((@invoice.amount - @invoice.total_refund), @invoice.currency)}"]
 pdf.table(rows,:cell_style => { :border_width => 0,:border_color=> 'C1C1C1', :width=>'100%' }) do |table|
     table.column(0..1).style(:align => :right)
     table.column(0).width = 300
@@ -49,7 +44,7 @@ pdf.move_down 30
 pdf.font_size(17.5) { pdf.text "Line Items", :style => :bold }
 pdf.move_down 10
 
-line_items = [["#{pluralize(plan_duration_in_month(@invoice), 'month')} LinksSpy.com subscription [plan: #{@invoice["json"]["lines"]["data"][0]["plan"]["name"]}]", "#{pdf_date_format(@invoice.period_start)} - #{pdf_date_format(@invoice.period_end)}", "#{format_currency(( @invoice.amount - total_refund), @invoice.currency)}"]]
+line_items = [["#{pluralize(plan_duration_in_month(@invoice), 'month')} LinksSpy.com subscription [plan: #{@invoice["json"]["lines"]["data"][0]["plan"]["name"]}]", "#{pdf_date_format(@invoice.period_start)} - #{pdf_date_format(@invoice.period_end)}", "#{format_currency(( @invoice.amount - @invoice.total_refund), @invoice.currency)}"]]
 pdf.font_size = 14
 
 pdf.table(line_items,:cell_style => { :border_width => 0,:border_color=> 'C1C1C1', :width=>'100%' }) do |table|
