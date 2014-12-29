@@ -31,7 +31,7 @@ gem 'stripe_invoice'
 To setup your application run the following commands from the command line: 
 
 ```
-rails generator stripe_invoice:install
+rails generate stripe_invoice:install
 rake db:migrate
 ```
 
