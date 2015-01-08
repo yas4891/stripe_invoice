@@ -24,13 +24,19 @@ pdf.move_down 20
 pdf.font_size(17.5) { pdf.text "Summary", :style => :bold }
 pdf.move_down 10
 
-total = [['Subtotal', "#{format_currency(@invoice.subtotal, @invoice.currency)}"],
-        ["Total", "#{format_currency(@invoice.total, @invoice.currency)}"]]
-pdf.table(total,:cell_style => { :border_width => 0,:border_color=> 'C1C1C1', :width=>'100%' }) do |table|
+rows = [['Subtotal', "#{format_currency(@invoice.subtotal, @invoice.currency)}"]]
+
+#Refund details
+@invoice.refunds.each do |refund|
+  rows << ["Refund", "#{format_currency(refund.amount, @invoice.currency)}"]
+end
+
+rows << ["Total", "#{format_currency((@invoice.amount - @invoice.total_refund), @invoice.currency)}"]
+pdf.table(rows,:cell_style => { :border_width => 0,:border_color=> 'C1C1C1', :width=>'100%' }) do |table|
     table.column(0..1).style(:align => :right)
     table.column(0).width = 300
     table.column(1).width = 240
-    table.row(0..1).style(:border_width => 1, :borders => [:top], :color => 'dddddd')
+    table.row(0..3).style(:border_width => 1, :borders => [:top], :color => 'dddddd')
 end
 pdf.move_down 30
 
@@ -38,7 +44,7 @@ pdf.move_down 30
 pdf.font_size(17.5) { pdf.text "Line Items", :style => :bold }
 pdf.move_down 10
 
-line_items = [["#{pluralize(plan_duration_in_month(@invoice), 'month')} LinksSpy.com subscription [plan: #{@invoice["json"]["lines"]["data"][0]["plan"]["name"]}]", "#{pdf_date_format(@invoice.period_start)} - #{pdf_date_format(@invoice.period_end)}", "#{format_currency(@invoice.total, @invoice.currency)}"]]
+line_items = [["#{pluralize(plan_duration_in_month(@invoice), 'month')} LinksSpy.com subscription [plan: #{@invoice["json"]["lines"]["data"][0]["plan"]["name"]}]", "#{pdf_date_format(@invoice.period_start)} - #{pdf_date_format(@invoice.period_end)}", "#{format_currency(( @invoice.amount - @invoice.total_refund), @invoice.currency)}"]]
 pdf.font_size = 14
 
 pdf.table(line_items,:cell_style => { :border_width => 0,:border_color=> 'C1C1C1', :width=>'100%' }) do |table|

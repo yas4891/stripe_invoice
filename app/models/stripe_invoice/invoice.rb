@@ -1,16 +1,14 @@
 module StripeInvoice
   class Invoice < ActiveRecord::Base
-    attr_accessible :id, :invoice_number, :stripe_id, :json, :owner_id, :date
+    attr_accessible :id, :invoice_number, :stripe_id, :json, :owner_id, :date, :amount, :stripe_refund_id, :parent_invoice_id
     
     alias_attribute :number, :invoice_number
 
     serialize :json, JSON
     
-    
     def indifferent_json
      @json ||= json.with_indifferent_access 
     end
-    
     
     def subtotal
       indifferent_json[:subtotal]
@@ -38,6 +36,16 @@ module StripeInvoice
     
     def lines
       indifferent_json[:lines]
+    end
+
+    def refunds
+      Invoice.where(parent_invoice_id: id)
+    end
+
+    def total_refund
+      total_refund=0
+      refunds.each{ |refund| total_refund += -refund.amount}
+      total_refund
     end
   end
 end
