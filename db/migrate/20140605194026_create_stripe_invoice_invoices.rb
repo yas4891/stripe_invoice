@@ -1,6 +1,6 @@
 class CreateStripeInvoiceInvoices < ActiveRecord::Migration
   def change
-    create_table :stripe_invoice_invoices do |t|
+    create_table :stripe_invoice_invoices, :force => true do |t|
       t.integer :id
       t.integer :owner_id
       t.string  :stripe_id

@@ -7,6 +7,12 @@ module StripeInvoice
       g.assets false
       g.helper false
     end
+    
+    initializer :append_migrations do |app|
+      unless app.root.to_s.match root.to_s
+        app.config.paths["db/migrate"] += config.paths["db/migrate"].expanded
+      end
+    end
 
     # loads StripeInvoice::ApplicationHelper into ::ApplicationController
     # so we can use #stripe_invoice_controller? in the main_app
