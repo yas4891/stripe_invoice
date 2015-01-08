@@ -49,6 +49,5 @@ module StripeInvoice
       period_start_date = Time.at(invoice.period_start)
       ((period_end_date.year * 12 + period_end_date.month) - (period_start_date.year * 12 + period_start_date.month)).to_i
     end
-
   end
 end
