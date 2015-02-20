@@ -8,7 +8,7 @@ module StripeInvoice
       # assuming that all currencies are split into 100 parts is probably wrong
       # on an i18n scale but it works for USD, EUR and LBP
       # TODO fix this maybe?
-      amount = amount / 100
+      amount = amount / 100.0
       options = {
         # use comma for euro 
         separator: currency == 'EUR' ? ',' : '.', 

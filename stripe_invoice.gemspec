@@ -13,13 +13,18 @@ Gem::Specification.new do |s|
   s.summary     = "Adds views, PDFs and automated emails if you are using Stripe/Koudoku for payment processing"
   s.description = "stripe_invoice adds PDF views and automated emails to your Koudoku-based application"
 
-  s.files = Dir["{app,config,db,lib}/**/*"] + ["MIT-LICENSE", "Rakefile", "README.md"]
-  s.test_files = Dir["spec/**/*"]
+  # s.files = Dir["{app,config,db,lib}/**/*"] + ["MIT-LICENSE", "Rakefile", "README.md"]
+  # s.test_files = Dir["spec/**/*"]
+  s.files         = `git ls-files -z`.split("\x0")
+  s.executables   = s.files.grep(%r{^bin/}) { |f| File.basename(f) }
+  s.test_files    = s.files.grep(%r{^(test|spec|features)/})
 
   s.add_dependency "rails", "~> 3.2.18"
   s.add_dependency "stripe" 
+  s.add_dependency "stripe_event" 
   s.add_dependency "prawn-rails"
   s.add_dependency "haml-rails" 
+  s.add_dependency "delayed_job_active_record" # for tax reports
   s.add_development_dependency 'rspec-rails'
   s.add_development_dependency 'koudoku'
   s.add_development_dependency 'devise'
