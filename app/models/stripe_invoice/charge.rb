@@ -33,7 +33,10 @@ module StripeInvoice
     def self.create_from_stripe(stripe_charge)
       charge = Charge.find_by_stripe_id(stripe_charge[:id])
       
-      raise "won't build for unpaid charges" unless stripe_charge.paid
+      unless stripe_charge.paid
+        puts "ignoring unpaid charges"
+        return
+      end 
       # for existing invoices just update and be done
       if charge.present?
         charge.update_attribute(:json, stripe_charge)
