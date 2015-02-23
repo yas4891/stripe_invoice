@@ -20,16 +20,17 @@ module StripeInvoice
     end
     
     
-    def tax_report
-      attachments['tax-report.pdf'] = {
-        content: File.read(::Rails.root.join('tmp', 'tax_report.pdf')),
-        mime_type: "application/pdf"
-      }
+    def tax_report(rendered_pdf)
+      attachments['income-report.pdf'] = rendered_pdf # File.read(::Rails.root.join('tmp', 'tax_report.pdf')) 
+      # {
+        # content: File.read(::Rails.root.join('tmp', 'tax_report.pdf')),
+        # mime_type: "application/pdf"
+      # }
       
       # sends the email to the default from address
       addr_to = ActionMailer::Base.default[:from]
-      mail subject: "Tax report", to: addr_to 
-      puts "[InvoiceMailer] tax report sent to #{addr_to}"
+      mail subject: "Income report", to: addr_to 
+      puts "[InvoiceMailer] income report sent to #{addr_to}"
     end
   end
 end

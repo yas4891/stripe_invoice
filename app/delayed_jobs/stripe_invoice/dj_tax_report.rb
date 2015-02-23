@@ -49,7 +49,7 @@ module StripeInvoice
             locals: {sicharges: arr_data, year: @year, totals: totals(arr_data)}, 
             formats: [:pdf]
       
-      #InvoiceMailer.tax_report.deliver!
+      InvoiceMailer.tax_report(res).deliver! #unless ::Rails.env.development?
     end
     
     
@@ -61,6 +61,7 @@ module StripeInvoice
     def totals(sicharges)
       result = {
         transaction_volume: total_transaction_volume(sicharges),
+        transaction_volume_by_country: transaction_volume_by_country(sicharges), 
       }
     end
     
@@ -68,6 +69,28 @@ module StripeInvoice
     def total_transaction_volume(sicharges)
       number_to_currency(sicharges.inject(0) {|sum, hash_ch| sum + hash_ch[:bt][:amount]} / 100.0, 
         unit: "#{sicharges.first[:bt][:currency].upcase} ")
+    end
+    
+    def transaction_volume_by_country(sicharges)
+      result = {}
+      
+      sicharges.each do |hash_ch| 
+        # get value or 0 if not present
+        value = result.fetch(hash_ch[:owner].country) { 0 }
+        
+        if hash_ch[:refunds]
+          hash_ch[:refunds].each do |refund|
+            value -= refund[:bt][:amount]
+          end
+        end # deduct refunds
+        result[hash_ch[:owner].country] = value + hash_ch[:bt][:amount]
+      end
+      
+      result.each do |key, value|
+        result[key] = value / 100.0
+      end
+      
+      result.with_indifferent_access
     end
   end
 end

@@ -19,6 +19,6 @@ namespace :stripe_invoice do
   
   task(:tax_report => :environment) do
     #Delayed::Job.enqueue StripeInvoice::DJTaxReport.new
-    StripeInvoice::DJTaxReport.new(2015).perform
+    StripeInvoice::DJTaxReport.new.perform
   end
 end
