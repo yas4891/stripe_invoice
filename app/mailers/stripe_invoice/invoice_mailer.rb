@@ -21,11 +21,7 @@ module StripeInvoice
     
     
     def tax_report(rendered_pdf)
-      attachments['income-report.pdf'] = rendered_pdf # File.read(::Rails.root.join('tmp', 'tax_report.pdf')) 
-      # {
-        # content: File.read(::Rails.root.join('tmp', 'tax_report.pdf')),
-        # mime_type: "application/pdf"
-      # }
+      attachments['income-report.pdf'] = rendered_pdf
       
       # sends the email to the default from address
       addr_to = ActionMailer::Base.default[:from]
