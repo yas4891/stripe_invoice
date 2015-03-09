@@ -8,10 +8,6 @@ gemspec
 # jquery-rails is used by the dummy application
 gem "jquery-rails"
 
-gem 'stripe'
-gem 'haml-rails'
-
-gem 'prawn-rails'
  
 group :development, :test do
 	gem "rspec-rails", "~> 2.12.2"
