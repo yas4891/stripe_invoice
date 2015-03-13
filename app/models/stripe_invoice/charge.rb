@@ -102,7 +102,7 @@ module StripeInvoice
       # instead we also try to match the email address/owner_id that was send to stripe 
       # when the account was created
       stripe_customer = Stripe::Customer.retrieve stripe_charge.customer
-      return nil if stripe_customer.deleted? # yes, that can happen :-(
+      return nil if stripe_customer[:deleted] # yes, that can happen :-(
       owner_id = stripe_customer.description.to_i
       Koudoku.owner_class.find(owner_id)
       
