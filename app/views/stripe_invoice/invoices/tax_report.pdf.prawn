@@ -33,8 +33,8 @@ prawn_document(:page_layout => :portrait) do |pdf|
                 
         pdf.text "Charged: #{format_stripe_currency(hash_ch[:charge], :total)}"
         pdf.text "Transaction: #{format_stripe_currency(hash_ch[:bt])} (Fee: #{format_stripe_currency(hash_ch[:bt],:fee)})"
-        pdf.text "Billed to: #{format_billing_address hash_ch[:owner]}"
-        pdf.text "Customer tax number: #{hash_ch[:owner].tax_number}" unless hash_ch[:owner].tax_number.blank?
+        pdf.text "Billed to: #{hash_ch[:billing_address]}"
+        pdf.text "Customer tax number: #{hash_ch[:tax_number]}" unless hash_ch[:tax_number].blank?
         if hash_ch[:refunds]
             ref_text = "<b>Refunds:</b>\n"
             hash_ch[:refunds].each do |hash_refund|

@@ -16,14 +16,17 @@ module StripeInvoice
       puts "[DJTaxReport] number of charges in year: #{sicharges.size}"
       arr_data = []
       sicharges.each do |charge|
-        owner = Koudoku.owner_class.find(charge.owner_id)
+        owner = charge.owner
         
         next unless owner # skip if we don't have an owner
         
         data = {
           charge: charge,
+          country: charge.country,
+          tax_number: charge.tax_number,
+          billing_address: charge.billing_address,
           bt: Stripe::BalanceTransaction.retrieve(charge.indifferent_json[:balance_transaction]),
-          owner: owner
+          owner: owner,
         }
         puts "[DJTaxReport] aggregating data #{charge.stripe_id}"
         if charge.indifferent_json[:refunds].count > 0
@@ -76,14 +79,14 @@ module StripeInvoice
       
       sicharges.each do |hash_ch| 
         # get value or 0 if not present
-        value = result.fetch(hash_ch[:owner].country) { 0 }
+        value = result.fetch(hash_ch[:country]) { 0 }
         
         if hash_ch[:refunds]
           hash_ch[:refunds].each do |refund|
             value -= refund[:bt][:amount]
           end
         end # deduct refunds
-        result[hash_ch[:owner].country] = value + hash_ch[:bt][:amount]
+        result[hash_ch[:country]] = value + hash_ch[:bt][:amount]
       end
       
       result.each do |key, value|
