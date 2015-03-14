@@ -46,14 +46,14 @@ module StripeInvoice
     def self.create_from_stripe(stripe_charge)
       
       unless stripe_charge.paid
-        puts "ignoring unpaid charges"
-        return
+        return puts "[#{self.class.name}##{__method__.to_s}] ignoring unpaid charge #{stripe_charge.id}"
       end
        
       charge = Charge.find_by_stripe_id(stripe_charge[:id])
       
       # for existing invoices just update and be done
       if charge.present?
+        puts "[#{self.class.name}##{__method__.to_s}] updating data for #{stripe_charge.id}"
         charge.update_attribute(:json, stripe_charge)
         return charge 
       end
@@ -93,18 +93,19 @@ module StripeInvoice
       
       # we found them directly, go for it. 
       unless subscription.nil?
+        puts "[#{self.class.name}##{__method__.to_s}] found owner directly for #{stripe_charge.id} - #{subscription.subscription_owner_email}"
         return subscription.subscription_owner
       end 
       
       # koudoku does have a nasty feature/bug in that it deletes the subscription
       # from the database when it is cancelled. This makes it impossible to 
       # match past charges to customers based solely on the subscription's stripe_id
-      # instead we also try to match the email address/owner_id that was send to stripe 
+      # instead we also try to match the email address that was send to stripe 
       # when the account was created
       stripe_customer = Stripe::Customer.retrieve stripe_charge.customer
       return nil if stripe_customer[:deleted] # yes, that can happen :-(
-      owner_id = stripe_customer.description.to_i
-      Koudoku.owner_class.find(owner_id)
+      puts "[#{self.class.name}##{__method__.to_s}] found owner via email for #{stripe_charge.id} - #{stripe_customer.email}"
+      Koudoku.owner_class.try(:find_by_email, stripe_customer.email)
       
     end
   end
