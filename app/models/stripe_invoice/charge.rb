@@ -59,8 +59,10 @@ module StripeInvoice
       end
       
       owner = get_subscription_owner stripe_charge
-      
-      return unless owner
+      unless owner
+        puts "[#{self.class.name}##{__method__.to_s}] didn't find owner for #{stripe_charge.id}"
+        return 
+      end
       
       stripe_invoice = Stripe::Invoice.retrieve stripe_charge[:invoice]
       last_charge = Charge.last
