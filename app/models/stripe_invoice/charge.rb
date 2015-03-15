@@ -95,8 +95,12 @@ module StripeInvoice
       
       # we found them directly, go for it. 
       unless subscription.nil?
-        puts "[#{self.class.name}##{__method__.to_s}] found owner directly for #{stripe_charge.id} - #{subscription.subscription_owner_email}"
-        return subscription.subscription_owner
+        puts "[#{self.class.name}##{__method__.to_s}] found subscription for #{stripe_charge.id} - #{subscription}"
+        
+        #  for some reason that association may be dead
+        # so we only return if there is an actual value. 
+        # else we'll try the other method
+        return subscription.subscription_owner if subscription.subscription_owner
       end 
       
       # koudoku does have a nasty feature/bug in that it deletes the subscription
