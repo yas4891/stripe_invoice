@@ -101,6 +101,7 @@ module StripeInvoice
         # so we only return if there is an actual value. 
         # else we'll try the other method
         return subscription.subscription_owner if subscription.subscription_owner
+        puts "[#{self.class.name}##{__method__.to_s}] found subscription but the owner relation was gone"
       end 
       
       # koudoku does have a nasty feature/bug in that it deletes the subscription

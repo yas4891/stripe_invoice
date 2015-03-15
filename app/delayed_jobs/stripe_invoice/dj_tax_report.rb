@@ -20,9 +20,12 @@ module StripeInvoice
         
         next unless owner # skip if we don't have an owner
         
+        country = Countries[charge.country] ? charge.country : Countries.find_by_name(charge.country)
+        country ||= 'Unknown Country'
+         
         data = {
           charge: charge,
-          country: charge.country,
+          country: country,
           tax_number: charge.tax_number,
           billing_address: charge.billing_address,
           bt: Stripe::BalanceTransaction.retrieve(charge.indifferent_json[:balance_transaction]),
