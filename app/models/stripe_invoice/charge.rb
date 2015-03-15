@@ -61,7 +61,7 @@ module StripeInvoice
       owner = get_subscription_owner stripe_charge
       unless owner
         puts "[#{self.class.name}##{__method__.to_s}] didn't find owner for #{stripe_charge.id}"
-        return 
+        return nil 
       end
       
       stripe_invoice = Stripe::Invoice.retrieve stripe_charge[:invoice]
@@ -105,7 +105,11 @@ module StripeInvoice
       # instead we also try to match the email address that was send to stripe 
       # when the account was created
       stripe_customer = Stripe::Customer.retrieve stripe_charge.customer
-      return nil if stripe_customer[:deleted] # yes, that can happen :-(
+      if stripe_customer[:deleted]
+        puts "[#{self.class.name}##{__method__.to_s}] charge owner was deleted: #{stripe_charge.id}"
+        return nil  # yes, that can happen :-(
+      end
+      
       puts "[#{self.class.name}##{__method__.to_s}] found owner via email for #{stripe_charge.id} - #{stripe_customer.email}"
       Koudoku.owner_class.try(:find_by_email, stripe_customer.email)
       
