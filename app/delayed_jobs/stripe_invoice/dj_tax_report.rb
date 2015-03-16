@@ -20,10 +20,8 @@ module StripeInvoice
         
         next unless owner # skip if we don't have an owner
         
-        country = Country[charge.country] ? charge.country : Country.find_by_name(charge.country)
-        country = country.alpha2 if country.is_a? Country
-        country ||= 'Unknown Country'
-         
+        country = get_country charge
+        
         data = {
           charge: charge,
           country: country,
@@ -58,7 +56,6 @@ module StripeInvoice
       
       InvoiceMailer.tax_report(res).deliver! #unless ::Rails.env.development?
     end
-    
     
     private 
     def date_to_epoch(date)
@@ -98,6 +95,11 @@ module StripeInvoice
       end
       
       result.with_indifferent_access
+    end
+    
+    def get_country(charge)
+      Country[charge.country] ? charge.country : 
+        ((country = Country.find_country_by_name(charge.country)) ? country.alpha2 : 'Unkown Country')
     end
   end
 end
