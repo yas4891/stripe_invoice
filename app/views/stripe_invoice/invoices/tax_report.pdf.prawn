@@ -11,6 +11,7 @@ prawn_document(:page_layout => :portrait) do |pdf|
     pdf.move_down 10
     pdf.text "Total charges in #{year}: #{sicharges.size}"
     pdf.text "Total transactions: #{totals[:transaction_volume]}"
+    pdf.text "Total Fees: #{totals[:fees]}"
     
     rows = [["Country", "Transaction volume"]]
     bt_unit = sicharges.first[:bt][:currency].upcase

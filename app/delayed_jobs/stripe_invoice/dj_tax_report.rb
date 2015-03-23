@@ -66,12 +66,18 @@ module StripeInvoice
       result = {
         transaction_volume: total_transaction_volume(sicharges),
         transaction_volume_by_country: transaction_volume_by_country(sicharges), 
+        fees: total_fee_volume(sicharges),
       }
     end
     
     include ActionView::Helpers::NumberHelper
     def total_transaction_volume(sicharges)
       number_to_currency(sicharges.inject(0) {|sum, hash_ch| sum + hash_ch[:bt][:amount]} / 100.0, 
+        unit: "#{sicharges.first[:bt][:currency].upcase} ")
+    end
+    
+    def total_fee_volume(sicharges)
+      number_to_currency(sicharges.inject(0) {|sum, hash_ch| sum + hash_ch[:bt][:fee]} / 100.0, 
         unit: "#{sicharges.first[:bt][:currency].upcase} ")
     end
     
