@@ -19,7 +19,7 @@ Gem::Specification.new do |s|
   s.executables   = s.files.grep(%r{^bin/}) { |f| File.basename(f) }
   s.test_files    = s.files.grep(%r{^(test|spec|features)/})
 
-  s.add_dependency "rails", "~> 3.2.18"
+  s.add_dependency "rails", ">= 3.2.18", "< 5.0"
   s.add_dependency "stripe" 
   s.add_dependency "stripe_event" 
   s.add_dependency 'koudoku'
