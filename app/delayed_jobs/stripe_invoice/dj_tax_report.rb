@@ -1,19 +1,20 @@
 module StripeInvoice
   class DJTaxReport
     def initialize(year = 1.year.ago.year)
+      year = 2015
       @year = year
     end
     
     
     def perform
-      puts "[DJTaxReport] computing tax report for #{@year}"
+      puts "[#{self.class.name}##{__method__.to_s}] computing tax report for #{@year}"
       
       sicharges = StripeInvoice::Charge.where(
             "date >= ? and date <= ?", 
             date_to_epoch("#{@year}-01-01"), 
             date_to_epoch("#{@year}-12-31"))
             
-      puts "[DJTaxReport] number of charges in year: #{sicharges.size}"
+      puts "[#{self.class.name}##{__method__.to_s}] number of charges in year: #{sicharges.size}"
       arr_data = []
       sicharges.each do |charge|
         owner = charge.owner
@@ -30,7 +31,7 @@ module StripeInvoice
           bt: Stripe::BalanceTransaction.retrieve(charge.indifferent_json[:balance_transaction]),
           owner: owner,
         }
-        puts "[DJTaxReport] aggregating data #{charge.stripe_id}"
+        puts "[#{self.class.name}##{__method__.to_s}] aggregating data #{charge.stripe_id}"
         if charge.indifferent_json[:refunds].count > 0
           arr_refunds = []
           charge.indifferent_json[:refunds].each do |refund|
@@ -48,10 +49,13 @@ module StripeInvoice
         arr_data << data
       end
       
-      puts "[DJTaxReport] data collected; rendering view"
+      puts "[#{self.class.name}##{__method__.to_s}] data collected; rendering view"
       #res = InvoicesController.new.tax_report arr_data
       res = Renderer.render template: "stripe_invoice/invoices/tax_report", 
-            locals: {sicharges: arr_data, year: @year, totals: totals(arr_data)}, 
+            locals: {sicharges: arr_data, 
+              year: @year, 
+              totals: totals(arr_data), 
+              volume_per_tax_number: volume_per_tax_number(arr_data)}, 
             formats: [:pdf]
       
       InvoiceMailer.tax_report(res).deliver! #unless ::Rails.env.development?
@@ -68,6 +72,25 @@ module StripeInvoice
         transaction_volume_by_country: transaction_volume_by_country(sicharges), 
         fees: total_fee_volume(sicharges),
       }
+    end
+    
+    def volume_per_tax_number(sicharges)
+      puts "[#{self.class.name}##{__method__.to_s}] calculating volume per tax id"
+      charges = sicharges.group_by do |charge| 
+        charge[:tax_number]
+      end
+      result = []
+      charges.each_key do |key|
+        next if key.blank?
+        
+        result <<  {
+          amount: charges[key].sum{|char| char[:total] - char.sum{|ref| ref[:amount]}},
+          currency: charges[key].first[:currency],
+          tax_number: key 
+          }
+      end
+      
+      result
     end
     
     include ActionView::Helpers::NumberHelper
