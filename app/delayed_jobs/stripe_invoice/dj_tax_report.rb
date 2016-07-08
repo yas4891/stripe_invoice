@@ -84,8 +84,8 @@ module StripeInvoice
         next if key.blank?
         
         result <<  {
-          amount: charges[key].sum{|char| char.total_less_refunds},
-          currency: charges[key].first[:currency],
+          amount: charges[key].sum{|char| char[:charge].total_less_refunds},
+          currency: charges[key].first[:charge].currency,
           tax_number: key 
           }
       end
@@ -129,6 +129,11 @@ module StripeInvoice
     def get_country(charge)
       Country[charge.country] ? charge.country : 
         ((country = Country.find_country_by_name(charge.country)) ? country.alpha2 : 'Unkown Country')
+    end
+    
+    def total_less_refunds(hash_sic)
+      total = hash_sic[:charge].total 
+      total -= hash_sic[:refunds].sum {|refund| refund[:refund][:amount]} unless hash_sic[:refunds].blank?
     end
   end
 end
