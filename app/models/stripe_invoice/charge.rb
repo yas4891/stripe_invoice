@@ -41,6 +41,10 @@ module StripeInvoice
       refunds.inject(0){ |total,refund| total + refund[:amount]}
     end
     
+    def total_less_refunds
+      total - total_refund
+    end
+    
     # builds the invoice from the stripe CHARGE object
     # OR updates the existing invoice if an invoice for that id exists
     def self.create_from_stripe(stripe_charge)

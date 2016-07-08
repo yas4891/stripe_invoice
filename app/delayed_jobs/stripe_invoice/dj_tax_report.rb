@@ -84,7 +84,7 @@ module StripeInvoice
         next if key.blank?
         
         result <<  {
-          amount: charges[key].sum{|char| char[:total] - char.sum{|ref| ref[:amount]}},
+          amount: charges[key].sum{|char| char.total_less_refunds},
           currency: charges[key].first[:currency],
           tax_number: key 
           }
