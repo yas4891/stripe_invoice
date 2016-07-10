@@ -28,7 +28,7 @@ module StripeInvoice
           country: country,
           tax_number: charge.tax_number,
           billing_address: charge.billing_address,
-          bt: Stripe::BalanceTransaction.retrieve(charge.indifferent_json[:balance_transaction]),
+          bt: charge.balance_transaction_object,
           owner: owner,
         }
         puts "[#{self.class.name}##{__method__.to_s}] aggregating data #{charge.stripe_id}"
@@ -82,11 +82,13 @@ module StripeInvoice
       result = []
       charges.each_key do |key|
         next if key.blank?
-        
+
         result <<  {
-          amount: charges[key].sum{|char| char[:charge].total_less_refunds},
-          currency: charges[key].first[:charge].currency,
-          tax_number: key 
+          amount: (charges[key].sum {|charge| charge[:charge].balance_transaction_total_less_refunds}),
+          currency: charges[key].first[:bt][:currency],
+          tax_number: key,
+          country: (charges[key].first[:charge].owner.country ? charges[key].first[:charge].owner.country : 
+             "CC: #{charges[key].first[:charge].source_country}")
           }
       end
       

@@ -29,7 +29,7 @@ prawn_document(:page_layout => :portrait) do |pdf|
     pdf.start_new_page
     pdf.font_size(17.5) { pdf.text "Volume per tax ID", :style => :bold }
     volume_per_tax_number.each do |vptn_hash|
-        pdf.text "#{vptn_hash[:tax_number]}: #{format_stripe_currency(vptn_hash,:amount)}" 
+        pdf.text "#{vptn_hash[:tax_number]}(#{vptn_hash[:country]}): #{format_stripe_currency(vptn_hash,:amount)}" 
     end
     
     pdf.start_new_page

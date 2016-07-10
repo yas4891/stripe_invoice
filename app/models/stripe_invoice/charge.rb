@@ -41,8 +41,44 @@ module StripeInvoice
       refunds.inject(0){ |total,refund| total + refund[:amount]}
     end
     
+    def total_refund_transaction
+      refunds.inject(0) do |total, refund|
+        bt = Stripe::BalanceTransaction.retrieve(refund[:balance_transaction])
+        total + bt[:amount]
+      end
+    end
+    
     def total_less_refunds
       total - total_refund
+    end
+    
+    def balance_transaction_object
+      @btobj ||= Stripe::BalanceTransaction.retrieve balance_transaction_sid
+    end
+    
+    def balance_transaction_sid
+      self.indifferent_json[:balance_transaction]
+    end
+    
+    def balance_transaction_currency
+      self.balance_transaction_object[:currency]
+    end
+    
+    def balance_transaction_total_less_refunds
+      result = (balance_transaction_object[:amount] - self.total_refund_transaction)
+      puts "[#{self.class.name}##{__method__.to_s}] result for #{id}-#{tax_number}: #{result}"
+      
+      result
+    end
+    
+    # the country the source is registered in 
+    def source_country
+      # source can only be accessed via Customer
+      cus = Stripe::Customer.retrieve self.indifferent_json[:customer]
+      # TODO this is wrong, because there might be multiple sources and I 
+      # just randomly select the first one - also some source types might NOT even
+      # have a country information
+      cus.sources.data[0].country
     end
     
     # builds the invoice from the stripe CHARGE object
