@@ -1,7 +1,6 @@
 module StripeInvoice
   class DJTaxReport
     def initialize(year = 1.year.ago.year)
-      year = 2015
       @year = year
     end
     
