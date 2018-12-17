@@ -40,7 +40,7 @@ at `/stripe_invoice`
 
 ### Accessing the invoices
 
-To view the invoices log into your application
+To view the invoices log into your application and go to `/stripe_invoice/`
 
 ### Customizing the views
 
@@ -60,4 +60,4 @@ To contribute to the development of StripeInvoice please:
 4. send a pull request
 
 ## Developer
-This plugin is under active development by [Christoph Engelhardt](http://www.it-engelhardt.de) and used at [LinksSpy.com](http://www.linksspy.com)
+This plugin is under development by [Christoph Engelhardt](http://www.it-engelhardt.de), author of [SaaS Email Marketing Handbook](https://www.saasemailmarketing.net)
